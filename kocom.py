@@ -212,18 +212,26 @@ def send(dest, src, cmd, value, log=None, check_ack=True):
     for seq_h in seq_t_dic.keys(): # if there's no ACK received, then repeat sending with next sequence code
         payload = type_h_dic['send'] + seq_h + '00' + dest + src + cmd + value
         send_data = header_h + payload + chksum(payload) + trailer_h
+
+        # ✅ 여기에 로그 추가!
+        logging.info(f"[DEBUG] Sending to RS485: {send_data}")
+
         try:
-            if rs485.write(bytearray.fromhex(send_data)) == False:
+            result = rs485.write(bytearray.fromhex(send_data))
+            if result == False:
                 raise Exception('Not ready')
         except Exception as ex:
-            logging.error("[RS485] Write error.[{}]".format(ex) )
+            logging.error("[RS485] Write error.[{}]".format(ex))
             break
+
         if log != None:
             logging.info('[SEND|{}] {}'.format(log, send_data))
         if check_ack == False:
             time.sleep(1)
             ret = send_data
             break
+        ...
+
 
         # wait and checking for ACK
         ack_data.append(type_h_dic['ack'] + seq_h + '00' +  src + dest + cmd + value)

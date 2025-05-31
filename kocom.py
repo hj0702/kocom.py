@@ -479,7 +479,7 @@ def mqtt_on_message(mqttc, obj, msg):
         send_wait_response(dest=dev_id, value=value, log='ac settemp')
  
  
-    # light on/off : kocom/livingroom/light/1/command
+        # light on/off : kocom/livingroom/light/1/command
     elif 'light' in topic_d:
         dev_id = device_h_dic['light'] + room_h_dic.get(topic_d[1])
         value = query(dev_id)['value']
@@ -490,9 +490,9 @@ def mqtt_on_message(mqttc, obj, msg):
         if light_id > 0:
             while light_id > 0:
                 n = light_id % 10
-                value = value[:n*2-2] + onoff_hex + value[n*2:]
-                send_wait_response(dest=dev_id, value=value, log='light')
-                light_id = int(light_id/10)
+                value = value[:n * 2 - 2] + onoff_hex + value[n * 2:]
+                light_id = int(light_id / 10)
+            send_wait_response(dest=dev_id, value=value, log='light')
         else:
             send_wait_response(dest=dev_id, value=value, log='light')
 
@@ -503,6 +503,7 @@ def mqtt_on_message(mqttc, obj, msg):
             send_wait_response(dest=dev_id, cmd=cmd_h_dic.get(command), log='gas')
         else:
             logging.info('You can only turn off gas.')
+
 
     # ✅ elevator 블록은 gas 블록과 동일한 수준에서 elif로 시작해야 함
     elif 'elevator' in topic_d:

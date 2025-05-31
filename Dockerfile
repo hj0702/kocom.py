@@ -7,7 +7,7 @@ COPY run.sh kocom.conf kocom.py /
 
 # 필수 파이썬 패키지 설치
 RUN pip install pyserial
-RUN pip install paho-mqtt
+RUN pip install paho-mqtt==1.6.1
 RUN pip install typing_extensions
 
 WORKDIR /share

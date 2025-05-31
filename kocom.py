@@ -497,15 +497,15 @@ def mqtt_on_message(mqttc, obj, msg):
             send_wait_response(dest=dev_id, value=value, log='light')
 
     # gas off : kocom/livingroom/gas/command
-    elif 'gas' in topic_d:
+        elif 'gas' in topic_d:
         dev_id = device_h_dic['gas'] + room_h_dic.get(topic_d[1])
         if command == 'off':
             send_wait_response(dest=dev_id, cmd=cmd_h_dic.get(command), log='gas')
         else:
             logging.info('You can only turn off gas.')
 
-    # elevator on/off : kocom/myhome/elevator/command
-        elif 'elevator' in topic_d:
+    # ✅ elevator 블록은 gas 블록과 동일한 수준에서 elif로 시작해야 함
+    elif 'elevator' in topic_d:
         room_code = room_h_dic.get(topic_d[1], '00')  # fallback 지정
         dev_id = device_h_dic['elevator'] + room_code
         logging.info(f"[DEBUG] elevator topic matched. dev_id={dev_id}, command={command}")

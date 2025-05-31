@@ -574,6 +574,29 @@ def mqtt_on_message(mqttc, obj, msg):
         if command == 'PRESS':
             poll_state(enforce=True)
 
+    # ===== elevator call via JSON MQTT topic =====
+    elif msg.topic == 'kocom/elevator/call':
+        try:
+            payload = json.loads(msg.payload.decode())
+            floor = int(payload.get('floor', 11))  # 기본층수 fallback
+            floor_hex = '{:02x}'.format(floor)
+
+            logging.info(f"[ELEVATOR] Calling elevator to floor {floor} (hex {floor_hex})")
+
+            # 호출 패킷 값은 고정된 RS485 elevator call payload
+            value = '00030000000000000000'
+
+            send(
+                dest=device_h_dic['wallpad'] + '00',
+                src=device_h_dic['elevator'] + room_h_dic.get('myhome', '00'),
+                cmd=cmd_h_dic['on'],
+                value=value,
+                log='elevator direct call',
+                check_ack=False
+            )
+        except Exception as e:
+            logging.error(f"[ELEVATOR] call payload error or send failed: {e}")
+
 
 #===== parse hex packet --> publish MQTT =====
 

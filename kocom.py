@@ -497,7 +497,7 @@ def mqtt_on_message(mqttc, obj, msg):
             send_wait_response(dest=dev_id, value=value, log='light')
 
     # gas off : kocom/livingroom/gas/command
-        elif 'gas' in topic_d:
+    elif 'gas' in topic_d:
         dev_id = device_h_dic['gas'] + room_h_dic.get(topic_d[1])
         if command == 'off':
             send_wait_response(dest=dev_id, cmd=cmd_h_dic.get(command), log='gas')

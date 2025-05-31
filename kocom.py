@@ -588,7 +588,7 @@ def mqtt_on_message(mqttc, obj, msg):
 
             send(
                 dest=device_h_dic['wallpad'] + '00',
-                src=device_h_dic['wallpad'] + '00'
+                src=device_h_dic['wallpad'] + '00',
                 cmd=cmd_h_dic['on'],
                 value=value,
                 log='elevator direct call',

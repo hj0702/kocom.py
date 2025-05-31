@@ -587,7 +587,7 @@ def mqtt_on_message(mqttc, obj, msg):
             value = '00030000000000000000'
 
             send(
-                dest=device_h_dic['wallpad'] + '00',
+                dest=device_h_dic['elevator'] + '00',
                 src=device_h_dic['wallpad'] + '00',
                 cmd=cmd_h_dic['on'],
                 value=value,
